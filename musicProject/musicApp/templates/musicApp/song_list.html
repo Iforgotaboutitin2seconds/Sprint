@@ -1,0 +1,12 @@
+{% extends 'musicApp/base_template.html' %}
+
+{% block content %}
+    <h1>All Songs</h1>
+    <ul>
+        {% for song in songs %}
+            <li><a href="{{ song.get_absolute_url }}">{{ song.name }}</a> by {{ song.artist }}</li>
+        {% empty %}
+            <li>No songs available</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

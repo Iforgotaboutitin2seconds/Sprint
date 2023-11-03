@@ -2,9 +2,12 @@
 
 {% block content %}
     <h1>All Songs</h1>
+    <a href="{% url 'song_new' %}">Add New Song</a>
     <ul>
         {% for song in songs %}
             <li><a href="{{ song.get_absolute_url }}">{{ song.name }}</a> by {{ song.artist }}</li>
+            <a href="{% url 'song_edit' song.id %}">Edit</a>
+            <a href="{% url 'song_delete' song.id %}">Delete</a>
         {% empty %}
             <li>No songs available</li>
         {% endfor %}

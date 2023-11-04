@@ -1,9 +1,16 @@
 {% extends 'musicAPP/base_template.html' %}
 {% block content %}
-  <h2>Delete Song</h2>
-  <form method="post">
-    {% csrf_token %}
-    Are you sure you want to delete "{{ object }}"?
-    <button type="submit">Yes, delete</button>
-  </form>
+  <div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+    <div style="border: 2px solid black; padding: 20px;">
+      <h2 style="text-align: center;">Delete Song</h2>
+      <form method="post">
+        {% csrf_token %}
+        <p style="text-align: center;">Are you sure you want to delete "{{ object }}"?</p>
+        <div style="display: flex; justify-content: center;">
+            <button type="submit" style="margin-right: 10px; color: red;">YES!!!!!</button>
+            <button type="button" onclick="window.history.back()" style="color: green;">No. I changed my mind.</button>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}

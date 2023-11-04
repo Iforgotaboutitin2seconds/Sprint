@@ -1,9 +1,14 @@
-{% extends 'musicAPP/base_template.html' %}
+{% extends 'musicApp/base_template.html' %}
 {% block content %}
-  <h2>New Song</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-  </form>
+  <div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+    <div style="border: 1px solid black; padding: 20px;">
+      <h2>New Song</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+        <button type="button" onclick="history.back()">Cancel</button>
+      </form>
+    </div>
+  </div>
 {% endblock %}

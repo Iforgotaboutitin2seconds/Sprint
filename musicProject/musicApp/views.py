@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from .models import *
 from .forms import songForm
 
+def index(request):
+    return render(request, 'musicApp/song_list.html')
+
 class songListView(ListView):
     model = song
     context_object_name = 'songs'

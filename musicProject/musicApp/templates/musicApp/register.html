@@ -1,0 +1,36 @@
+{% extends 'musicApp/base_template.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Register</h1>
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <label for="password1">Password:</label>
+            <input type="password" id="password1" name="password1"><br><br>
+            <label for="password2">Confirm Password:</label>
+            <input type="password" id="password2" name="password2"><br><br>
+            <input type="submit" value="Register">
+            <a href="{% url 'index' %}">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
+
+<style>
+    /* adjust form layout for small screens */
+    @media only screen and (max-width: 600px) {
+        .container form {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .container label, .container input[type="text"], .container input[type="password"], .container input[type="submit"], .container input[type="email"] {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+

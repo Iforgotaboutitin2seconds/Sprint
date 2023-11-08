@@ -5,34 +5,42 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <body>
-        <button class="btn btn-primary d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <nav class="navbar navbar-dark bg-dark fixed-top collapse d-md-block" id="navbarCollapse">
-            <a class="navbar-brand" href="{% url 'songs' %}">
-                <img src="{% static 'images/image.png' %}" alt="Home Page - Click to go to the songs page" style="width: 100px; margin: 10px;">
-            </a>
-            <span class="navbar-text" style="font-size: 24px;" id="title" >Music App! Click the images to get a different color! and go to home page.</span>
-            <script>
-                // Generate a random color
-                function getRandomColor() {
-                    var letters = '0123456789ABCDEF';
-                    var color = '#';
-                    for (var i = 0; i < 6; i++) {
-                        color += letters[Math.floor(Math.random() * 16)];
+        <div class="container">
+            <button class="btn btn-primary d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <nav class="navbar navbar-dark bg-dark fixed-top collapse d-md-block" id="navbarCollapse">
+                <a class="navbar-brand" href="{% url 'songs' %}">
+                    <img src="{% static 'images/image.png' %}" alt="Home Page - Click to go to the songs page" style="width: 100px; margin: 10px;">
+                </a>
+                <span class="navbar-text" style="font-size: 24px;" id="title" >Music App! Click the images to get a different color! and go to home page.</span>
+                <div class="d-flex justify-content-end">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}" class="btn btn-outline-light me-2">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
+                    {% endif %}
+                </div>
+                <script>
+                    // Generate a random color
+                    function getRandomColor() {
+                        var letters = '0123456789ABCDEF';
+                        var color = '#';
+                        for (var i = 0; i < 6; i++) {
+                            color += letters[Math.floor(Math.random() * 16)];
+                        }
+                        return color;
                     }
-                    return color;
-                }
 
-                // Apply the random color to the text
-                var title = document.getElementById("title");
-                title.style.color = getRandomColor();
-            </script>
-        </nav>
-        <div class="container" style="margin-top: 180px;">
-            <!-- add block content from html template -->
-            {% block content %}
-            {% endblock %}
+                    // Apply the random color to the text
+                    var title = document.getElementById("title");
+                    title.style.color = getRandomColor();
+                </script>
+            </nav>
+            <div class="container" style="margin-top: 180px;">
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
     </body>
 </html>

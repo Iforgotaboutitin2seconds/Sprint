@@ -14,7 +14,7 @@ class song(models.Model):
         return reverse('song_detail', args=[str(self.id)])
 
 
-class playList(models.Model):
+class playlist(models.Model):
     name = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
     songs = models.ManyToManyField(song, related_name="playlists")
@@ -22,3 +22,33 @@ class playList(models.Model):
     def __str__(self):
         return self.name
 
+
+class album(models.Model):
+    name = models.CharField(max_length=100)
+    artist = models.ForeignKey('artist', on_delete=models.CASCADE)
+    songs = models.ManyToManyField(song)
+
+    def __str__(self):
+        return self.name
+
+
+class artist(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    email = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    songs = models.ManyToManyField(song, related_name="artists")
+
+    def __str__(self):
+        return self.name
+
+    
+class user(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    email = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    playlists = models.ManyToManyField(playlist, related_name="users")
+
+    def __str__(self):
+        return self.name

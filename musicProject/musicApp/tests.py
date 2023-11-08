@@ -21,3 +21,14 @@ class SongListViewTest(TestCase):
         self.assertContains(response, 'Song 2')
         self.assertContains(response, 'Artist 1')
         self.assertContains(response, 'Artist 2')
+
+class SongDetailViewTest(TestCase):
+    def setUp(self):
+        # Create a post for testing
+        song.objects.create(name='Test Song', description='This is a test song')
+
+    def test_song_detail_view(self):
+        response = self.client.get(reverse('songs', args=[self.post.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/post_detail.html')
+        self.assertContains(response, 'Test Post')

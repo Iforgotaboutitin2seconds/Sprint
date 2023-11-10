@@ -22,7 +22,7 @@ class songDetailView(DetailView):
 class playlistListView(ListView):
     model = playlist
 
-
+    
 class playlistDetailView(DetailView):
     model = playlist
 
@@ -44,8 +44,10 @@ class songDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "musicApp/song_confirm_delete.html"
     success_url = "/songs/"
 
+
 class loginView(TemplateView):
     template_name = "musicApp/login.html"
+
 
 class registerView(TemplateView):
     model = user

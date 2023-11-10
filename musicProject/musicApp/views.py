@@ -7,7 +7,7 @@ from .forms import songForm
 
 
 def index(request):
-    return render(request, "musicApp/song_list.html")
+    return render(request, "musicApp/base_template.html")
 
 
 class songListView(ListView):

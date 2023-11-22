@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#h=ycg!8di)h00pgn3_(+v0@!-gqy%%sdd47e6(9j7f6uza*&%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'songs'  # Redirect to home page after login

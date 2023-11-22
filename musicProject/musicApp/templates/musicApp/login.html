@@ -16,6 +16,17 @@
             <button type="submit" class="btn btn-primary">Login</button>
             <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
             <button type="button" class="btn btn-link" onclick="showMessage()">Forgot?</button>
+
+            {% if messages %}
+                <div class="alert alert-danger">
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
         </form>
         <br>
         <div class="text-center">
@@ -26,5 +37,18 @@
         function showMessage() {
             alert("This feature is currently being worked on.");
         }
+
+        const messagesContainer = document.querySelector('.messages');
+
+        function checkMessages() {
+            const messages = document.querySelectorAll('.messages li');
+            if (messages.length > 0) {
+                messagesContainer.style.display = 'block';
+            } else {
+                messagesContainer.style.display = 'none';
+            }
+        }
+
+        setInterval(checkMessages, 1000);
     </script>
 {% endblock %}

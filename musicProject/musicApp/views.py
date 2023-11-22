@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from .models import *
 from .forms import *
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 
 def index(request):
     return redirect('songs')
@@ -55,9 +56,16 @@ class loginView(FormView):
         user = form.user
         if user:
             login(self.request, user)  # Log in the user
-            return redirect('/')
+            return super().form_valid(form)
         else:
             return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        # Handle form errors
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, error)
+        return super().form_invalid(form)
 
 
 class registerView(FormView):
@@ -71,17 +79,20 @@ class registerView(FormView):
             return HttpResponse("You are already logged in.")
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            name = form.cleaned_data.get('name')
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            user = get_user_model().objects.create_user(name=name,email=email, password=password)
-            login(request, user)
-            return redirect('/')
-        else:
-            return self.form_invalid(form)
+    def form_valid(self, form):
+        name = form.cleaned_data.get('name')
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        user = get_user_model().objects.create_user(name=name,email=email, password=password)
+        login(self.request, user)
+        return redirect('/')
+
+    def form_invalid(self, form):
+        # Handle form errors
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, error)
+        return super().form_invalid(form)
 
 
 class aboutView(TemplateView):

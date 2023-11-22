@@ -8,14 +8,18 @@
         {% csrf_token %}
 
         <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" class="form-control" required>
+            <label for="name">Username:</label>
+            <input type="text" id="name" name="name" class="form-control" required>
         </div>
 
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" class="form-control" required>
-            <button type="button" onclick="showNotice()">Why?</button>
+            <div class="input-group">
+                <input type="email" id="email" name="email" class="form-control" required>
+                <div class="input-group-append">
+                    <button type="button" onclick="showNotice(this)" class="btn btn-outline-secondary">Why?</button>
+                </div>
+            </div>
             <div id="notice" style="display: none;">
                 <p>This will help us recover your account if you forgot your username or password.</p>
             </div>
@@ -23,13 +27,16 @@
 
         <div class="form-group">
             <label for="password1">Password:</label>
-            <input type="password" id="password1" name="password1" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="Password must be at least 8 characters long, including a number, uppercase and lowercase letters, and at least 1 special character." required>
-            <ul>
-                <li>Password must be at least 8 characters long</li>
-                <li>Must include a number</li>
-                <li>Must include an uppercase letter</li>
-                <li>Must include a lowercase letter</li>
-                <li>Must include at least 1 special character</li>
+            <div class="password-input input-group">
+                <input type="password" id="password1" name="password1" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="Password must be at least 8 characters long, including a number, uppercase and lowercase letters, and at least 1 special character." required>
+                <button type="button" onclick="togglePasswordVisibility('password1', this)" class="btn btn-outline-secondary">Show</button>
+            </div>
+            <ul id="password-requirements">
+                <li id="length-requirement">Password must be at least 8 characters long</li>
+                <li id="number-requirement">Must include a number</li>
+                <li id="uppercase-requirement">Must include an uppercase letter</li>
+                <li id="lowercase-requirement">Must include a lowercase letter</li>
+                <li id="special-requirement">Must include at least 1 special character</li>
             </ul>
         </div>
 
@@ -59,15 +66,42 @@
     .btn {
         margin-right: 10px;
     }
+
+    .password-input {
+        position: relative;
+    }
+
+    .password-input input[type="password"] {
+        padding-right: 30px;
+    }
+
+    .password-input button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        padding: 5px 10px;
+    }
 </style>
 
 <script>
-    function showNotice() {
-        var notice = document.getElementById("notice");
+    function showNotice(button) {
+        var notice = button.parentElement.parentElement.nextElementSibling;
         if (notice.style.display === "none") {
             notice.style.display = "block";
         } else {
             notice.style.display = "none";
+        }
+    }
+
+    function togglePasswordVisibility(inputId, button) {
+        var input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            button.textContent = "Hide";
+        } else {
+            input.type = "password";
+            button.textContent = "Show";
         }
     }
 
@@ -86,7 +120,46 @@
         }
     }
 
+    function checkPasswordRequirements() {
+        var lengthRequirement = document.getElementById("length-requirement");
+        var numberRequirement = document.getElementById("number-requirement");
+        var uppercaseRequirement = document.getElementById("uppercase-requirement");
+        var lowercaseRequirement = document.getElementById("lowercase-requirement");
+        var specialRequirement = document.getElementById("special-requirement");
+
+        if (password1.value.length >= 8) {
+            lengthRequirement.style.display = "none";
+        } else {
+            lengthRequirement.style.display = "block";
+        }
+
+        if (/\d/.test(password1.value)) {
+            numberRequirement.style.display = "none";
+        } else {
+            numberRequirement.style.display = "block";
+        }
+
+        if (/[A-Z]/.test(password1.value)) {
+            uppercaseRequirement.style.display = "none";
+        } else {
+            uppercaseRequirement.style.display = "block";
+        }
+
+        if (/[a-z]/.test(password1.value)) {
+            lowercaseRequirement.style.display = "none";
+        } else {
+            lowercaseRequirement.style.display = "block";
+        }
+
+        if (/\W/.test(password1.value)) {
+            specialRequirement.style.display = "none";
+        } else {
+            specialRequirement.style.display = "block";
+        }
+    }
+
     password1.addEventListener("input", checkPasswordMatch);
+    password1.addEventListener("input", checkPasswordRequirements);
     password2.addEventListener("input", checkPasswordMatch);
 </script>
 

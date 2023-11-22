@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.generic import *
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+from django.http import HttpResponse
 from .models import *
 from .forms import *
-
+from django.contrib.auth import get_user_model
 
 def index(request):
     return redirect('songs')
@@ -22,7 +23,7 @@ class songDetailView(DetailView):
 class playlistListView(ListView):
     model = playlist
 
-    
+
 class playlistDetailView(DetailView):
     model = playlist
 
@@ -48,24 +49,39 @@ class songDeleteView(LoginRequiredMixin, DeleteView):
 class loginView(FormView):
     form_class = loginForm
     template_name = "musicApp/login.html"
-    success_url = "/"
+    success_url = "/songs/"
 
     def form_valid(self, form):
-        user = form.login()
+        user = form.user
         if user:
-            return redirect('home')
+            login(self.request, user)  # Log in the user
+            return redirect('/')
         else:
             return self.form_invalid(form)
 
 
 class registerView(FormView):
+    model = get_user_model
     form_class = registerForm
     template_name = "musicApp/register.html"
-    success_url = "/"
+    success_url = "/songs/"
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return HttpResponse("You are already logged in.")
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            user = get_user_model().objects.create_user(name=name,email=email, password=password)
+            login(request, user)
+            return redirect('/')
+        else:
+            return self.form_invalid(form)
 
 
 class aboutView(TemplateView):

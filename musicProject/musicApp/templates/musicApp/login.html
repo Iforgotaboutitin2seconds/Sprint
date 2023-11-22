@@ -6,8 +6,8 @@
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" class="form-control" style="margin-bottom: 10px;" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" style="margin-bottom: 10px;" required>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
@@ -15,17 +15,13 @@
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
             <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
-            <button type="button" class="btn btn-link" onclick="showMessage()">Forgot Password or Username?</button>
+            <button type="button" class="btn btn-link" onclick="showMessage()">Forgot?</button>
         </form>
-        {% if user_not_found %}
-            <p class="text-danger">User not found.</p>
-        {% endif %}
         <br>
         <div class="text-center">
             <a href="{% url 'register' %}" class="btn btn-link">Don't have an account?</a>
         </div>
     </div>
-
     <script>
         function showMessage() {
             alert("This feature is currently being worked on.");

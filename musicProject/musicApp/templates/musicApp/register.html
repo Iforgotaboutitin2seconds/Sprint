@@ -1,36 +1,93 @@
 {% extends 'musicApp/base_template.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Register</h1>
-        <form action="{% url 'register' %}" method="post">
-            {% csrf_token %}
+
+<div class="container">
+    <h1>Register</h1>
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username"><br><br>
+            <input type="text" id="username" name="username" class="form-control" required>
+        </div>
+
+        <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email"><br><br>
+            <input type="email" id="email" name="email" class="form-control" required>
+            <button type="button" onclick="showNotice()">Why?</button>
+            <div id="notice" style="display: none;">
+                <p>This will help us recover your account if you forgot your username or password.</p>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="password1">Password:</label>
-            <input type="password" id="password1" name="password1"><br><br>
+            <input type="password" id="password1" name="password1" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="Password must be at least 8 characters long, including a number, uppercase and lowercase letters, and at least 1 special character." required>
+            <ul>
+                <li>Password must be at least 8 characters long</li>
+                <li>Must include a number</li>
+                <li>Must include an uppercase letter</li>
+                <li>Must include a lowercase letter</li>
+                <li>Must include at least 1 special character</li>
+            </ul>
+        </div>
+
+        <div class="form-group">
             <label for="password2">Confirm Password:</label>
-            <input type="password" id="password2" name="password2"><br><br>
-            <input type="submit" value="Register">
-            <a href="{% url 'index' %}">Cancel</a>
-        </form>
-    </div>
-{% endblock %}
+            <input type="password" id="password2" name="password2" class="form-control" required>
+            <p id="password-match-error" style="display: none; color: red;">Passwords do not match.</p>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Register" class="btn btn-primary" id="submit-button" disabled>
+            <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
 
 <style>
-    /* adjust form layout for small screens */
-    @media only screen and (max-width: 600px) {
-        .container form {
-            width: 80%;
-            margin: 0 auto;
-        }
-        .container label, .container input[type="text"], .container input[type="password"], .container input[type="submit"], .container input[type="email"] {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-        }
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    ul {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        margin-right: 10px;
     }
 </style>
 
+<script>
+    function showNotice() {
+        var notice = document.getElementById("notice");
+        if (notice.style.display === "none") {
+            notice.style.display = "block";
+        } else {
+            notice.style.display = "none";
+        }
+    }
+
+    var password1 = document.getElementById("password1");
+    var password2 = document.getElementById("password2");
+    var passwordMatchError = document.getElementById("password-match-error");
+    var submitButton = document.getElementById("submit-button");
+
+    function checkPasswordMatch() {
+        if (password1.value !== password2.value) {
+            passwordMatchError.style.display = "block";
+            submitButton.disabled = true;
+        } else {
+            passwordMatchError.style.display = "none";
+            submitButton.disabled = false;
+        }
+    }
+
+    password1.addEventListener("input", checkPasswordMatch);
+    password2.addEventListener("input", checkPasswordMatch);
+</script>
+
+{% endblock %}

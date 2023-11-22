@@ -3,7 +3,7 @@ from django.urls import reverse
 from .models import *
 from .views import *
 
-class SongListViewTest(TestCase):
+class songListViewTest(TestCase):
     def setUp(self):
         # Set up any data you need for your tests
         song.objects.create(name='Song 1', artist='Artist 1')
@@ -22,7 +22,7 @@ class SongListViewTest(TestCase):
         self.assertContains(response, 'Artist 1')
         self.assertContains(response, 'Artist 2')
 
-class SongDetailViewTest(TestCase):
+class songDetailViewTest(TestCase):
     def setUp(self):
         # Create a post for testing
         song.objects.create(name='Test Song', description='This is a test song')

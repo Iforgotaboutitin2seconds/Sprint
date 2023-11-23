@@ -30,8 +30,8 @@ ALLOWED_HOSTS = ['*']
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'songs'  # Redirect to home page after login
 LOGOUT_REDIRECT_URL = 'songs'  # Redirect to home page after logout
-
-# Application definition
+AUTH_USER_MODEL = 'musicApp.User'
+COVERAGE_REPORT_HTML_OUTPUT_DIR = 'coverage_reports'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'musicApp',
     'bootstrap5',
+    'coverage',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

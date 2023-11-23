@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from .models import *
 
-
 class SongForm(forms.ModelForm):
     class Meta:
         model = Song
@@ -21,7 +20,6 @@ class RegisterForm(UserCreationForm):
     def clean(self):
         cleaned_data = super().clean()
         email = cleaned_data.get('email')
-        User = get_user_model()
         user = User.objects.filter(email=email).first()
         if user:
             raise forms.ValidationError("Email already exists.")
@@ -54,7 +52,6 @@ class LoginForm(forms.Form):
         password = cleaned_data.get('password')
 
         if email and password:
-            User = get_user_model()
             user = User.objects.filter(email=email).first()
             if not user or not user.check_password(password):
                 raise forms.ValidationError("Invalid email or password.")

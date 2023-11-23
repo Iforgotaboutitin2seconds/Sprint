@@ -11,22 +11,25 @@ from django.contrib import messages
 def index(request):
     return redirect('songs')
 
-
 class songListView(ListView):
     model = song
     context_object_name = "songs"
+    template_name = "musicApp/song_list.html"
 
 
 class songDetailView(DetailView):
     model = song
+    template_name = "musicApp/song_detail.html"
 
 
 class playlistListView(ListView):
     model = playlist
+    template_name = "musicApp/playlist_list.html"
 
 
 class playlistDetailView(DetailView):
     model = playlist
+    template_name = "musicApp/playlist_detail.html"
 
 
 class songCreateView(LoginRequiredMixin, CreateView):

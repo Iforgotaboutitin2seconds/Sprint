@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ['*']
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'songs'  # Redirect to home page after login
 LOGOUT_REDIRECT_URL = 'songs'  # Redirect to home page after logout
-AUTH_USER_MODEL = 'musicApp.user'
 
 # Application definition
 

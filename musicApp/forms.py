@@ -1,16 +1,16 @@
 from django import forms
-from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from .models import *
 
 
-class songForm(forms.ModelForm):
+class SongForm(forms.ModelForm):
     class Meta:
-        model = song
+        model = Song
         fields = ['name', 'artist', 'description']
 
 
-class registerForm(UserCreationForm):
+class RegisterForm(UserCreationForm):
     name = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=100)
 
@@ -44,7 +44,7 @@ class registerForm(UserCreationForm):
         return user
 
 
-class loginForm(forms.Form):
+class LoginForm(forms.Form):
     email = forms.EmailField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)
 

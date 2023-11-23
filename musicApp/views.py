@@ -8,50 +8,42 @@ from .forms import *
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 
+
 def index(request):
     return redirect('songs')
 
-class songListView(ListView):
-    model = song
+
+class SongListView(ListView):
+    model = Song
     context_object_name = "songs"
     template_name = "musicApp/song_list.html"
 
 
-class songDetailView(DetailView):
-    model = song
+class SongDetailView(DetailView):
+    model = Song
     template_name = "musicApp/song_detail.html"
 
 
-class playlistListView(ListView):
-    model = playlist
-    template_name = "musicApp/playlist_list.html"
-
-
-class playlistDetailView(DetailView):
-    model = playlist
-    template_name = "musicApp/playlist_detail.html"
-
-
-class songCreateView(LoginRequiredMixin, CreateView):
-    model = song
-    form_class = songForm
+class SongCreateView(LoginRequiredMixin, CreateView):
+    model = Song
+    form_class = SongForm
     template_name = "musicApp/song_form.html"
 
 
-class songUpdateView(LoginRequiredMixin, UpdateView):
-    model = song
-    form_class = songForm
+class SongUpdateView(LoginRequiredMixin, UpdateView):
+    model = Song
+    form_class = SongForm
     template_name = "musicApp/song_form.html"
 
 
-class songDeleteView(LoginRequiredMixin, DeleteView):
-    model = song
+class SongDeleteView(LoginRequiredMixin, DeleteView):
+    model = Song
     template_name = "musicApp/song_confirm_delete.html"
     success_url = "/songs/"
 
 
-class loginView(FormView):
-    form_class = loginForm
+class LoginView(FormView):
+    form_class = LoginForm
     template_name = "musicApp/login.html"
     success_url = "/songs/"
 
@@ -71,9 +63,9 @@ class loginView(FormView):
         return super().form_invalid(form)
 
 
-class registerView(FormView):
+class RegisterView(FormView):
     model = get_user_model
-    form_class = registerForm
+    form_class = RegisterForm
     template_name = "musicApp/register.html"
     success_url = "/songs/"
 
@@ -86,7 +78,7 @@ class registerView(FormView):
         name = form.cleaned_data.get('name')
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
-        user = get_user_model().objects.create_user(name=name,email=email, password=password)
+        user = get_user_model().objects.create_user(name=name, email=email, password=password)
         login(self.request, user)
         return redirect('/')
 
@@ -98,5 +90,5 @@ class registerView(FormView):
         return super().form_invalid(form)
 
 
-class aboutView(TemplateView):
+class AboutView(TemplateView):
     template_name = "musicApp/about.html"

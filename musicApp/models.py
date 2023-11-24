@@ -43,9 +43,6 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def get_by_natural_key(self, email):
-        return self.get(email=email)
-
 
 class User(AbstractBaseUser):
     name = models.CharField(max_length=100)
@@ -53,13 +50,13 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=100, unique=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = UserManager()
 
     USERNAME_FIELD = 'email'
+    objects = UserManager()
     REQUIRED_FIELDS = ['name']
 
     def __str__(self):
-        return self.name
+        return self.email
     
     def has_perm(self, perm, obj=None):
         return True

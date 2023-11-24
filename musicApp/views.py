@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect
-from django.views.generic import *
-from django.contrib.auth import login
+from django.shortcuts import redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView, TemplateView
+from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from .models import *
-from .forms import *
-from django.contrib.auth import get_user_model
 from django.contrib import messages
+from .models import Song
+from .forms import SongForm, LoginForm, RegisterForm
+from django.contrib.auth.views import LoginView
 
 
 def index(request):
@@ -42,29 +42,14 @@ class SongDeleteView(LoginRequiredMixin, DeleteView):
     success_url = "/songs/"
 
 
-class LoginView(FormView):
+class LoginView(LoginView):
     form_class = LoginForm
     template_name = "musicApp/login.html"
     success_url = "/songs/"
 
-    def form_valid(self, form):
-        user = form.user
-        if user:
-            login(self.request, user)  # Log in the user
-            return super().form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def form_invalid(self, form):
-        # Handle form errors
-        for field, errors in form.errors.items():
-            for error in errors:
-                messages.error(self.request, error)
-        return super().form_invalid(form)
-
 
 class RegisterView(FormView):
-    model = get_user_model
+    model = get_user_model()
     form_class = RegisterForm
     template_name = "musicApp/register.html"
     success_url = "/songs/"

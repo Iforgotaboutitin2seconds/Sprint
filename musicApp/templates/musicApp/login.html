@@ -1,54 +1,14 @@
 {% extends 'musicApp/base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Login</h1>
-        <form action="{% url 'login' %}" method="post">
+    <div class="login-form">
+        <form method="post">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" class="form-control" style="margin-bottom: 10px;" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" class="form-control" style="margin-bottom: 10px;" required>
-            </div>
+            {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Login</button>
-            <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
-            <button type="button" class="btn btn-link" onclick="showMessage()">Forgot?</button>
-
-            {% if messages %}
-                <div class="alert alert-danger">
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-
+            <a href="{% url 'songs' %}" class="btn btn-secondary">Cancel</a>
         </form>
-        <br>
-        <div class="text-center">
-            <a href="{% url 'register' %}" class="btn btn-link">Don't have an account?</a>
-        </div>
+        <p class="register-link">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
     </div>
-    <script>
-        function showMessage() {
-            alert("This feature is currently being worked on.");
-        }
-
-        const messagesContainer = document.querySelector('.messages');
-
-        function checkMessages() {
-            const messages = document.querySelectorAll('.messages li');
-            if (messages.length > 0) {
-                messagesContainer.style.display = 'block';
-            } else {
-                messagesContainer.style.display = 'none';
-            }
-        }
-
-        setInterval(checkMessages, 1000);
-    </script>
 {% endblock %}
+

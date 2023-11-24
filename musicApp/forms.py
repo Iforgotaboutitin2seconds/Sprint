@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from .models import *
 
@@ -42,19 +42,5 @@ class RegisterForm(UserCreationForm):
         return user
 
 
-class LoginForm(forms.Form):
-    email = forms.EmailField(max_length=100)
-    password = forms.CharField(widget=forms.PasswordInput)
-
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        password = cleaned_data.get('password')
-
-        if email and password:
-            user = User.objects.filter(email=email).first()
-            if not user or not user.check_password(password):
-                raise forms.ValidationError("Invalid email or password.")
-            else:
-                self.user = user
-        return cleaned_data
+class LoginForm(AuthenticationForm):    
+    pass

@@ -14,13 +14,8 @@
 
         <div class="form-group">
             <label for="email">Email:</label>
-            <div class="input-group">
-                <input type="email" id="email" name="email" class="form-control" required>
-                <div class="input-group-append">
-                    <button type="button" onclick="showNotice(this)" class="btn btn-outline-secondary">Why?</button>
-                </div>
-            </div>
-            <div id="notice" style="display: none;">
+            <input type="email" id="email" name="email" class="form-control" required>
+            <div id="notice">
                 <p>This will help us recover your account if you forgot your username or password.</p>
             </div>
         </div>
@@ -29,7 +24,6 @@
             <label for="password1">Password:</label>
             <div class="password-input input-group">
                 <input type="password" id="password1" name="password1" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="Password must be at least 8 characters long, including a number, uppercase and lowercase letters, and at least 1 special character." required>
-                <button type="button" onclick="togglePasswordVisibility('password1', this)" class="btn btn-outline-secondary">Show</button>
             </div>
             <ul id="password-requirements">
                 <li id="length-requirement">Password must be at least 8 characters long</li>
@@ -86,37 +80,9 @@
     .password-input input[type="password"] {
         padding-right: 30px;
     }
-
-    .password-input button {
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 100%;
-        padding: 5px 10px;
-    }
 </style>
 
 <script>
-    function showNotice(button) {
-        var notice = button.parentElement.parentElement.nextElementSibling;
-        if (notice.style.display === "none") {
-            notice.style.display = "block";
-        } else {
-            notice.style.display = "none";
-        }
-    }
-
-    function togglePasswordVisibility(inputId, button) {
-        var input = document.getElementById(inputId);
-        if (input.type === "password") {
-            input.type = "text";
-            button.textContent = "Hide";
-        } else {
-            input.type = "password";
-            button.textContent = "Show";
-        }
-    }
-
     var password1 = document.getElementById("password1");
     var password2 = document.getElementById("password2");
     var passwordMatchError = document.getElementById("password-match-error");

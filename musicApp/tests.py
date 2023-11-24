@@ -8,7 +8,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 class URLTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.test_user = User.objects.create_user(email='test@test.com', name='test', password='testpass')
+        self.test_user = User.objects.create_user(email='test@test.com', password='testpass')
         self.client.login(email='test@test.com', password='testpass')
 
     def test_songs_url(self):
@@ -22,7 +22,7 @@ class URLTest(TestCase):
 
 class ModelTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(email='test@test.com', name='test', password='testpass')
+        self.user = User.objects.create_user(email='test@test.com', password='testpass')
 
         self.song = Song.objects.create(
             name='Test Song',
@@ -38,7 +38,6 @@ class ModelTest(TestCase):
 
     def test_user_creation(self):
         self.assertEqual(self.user.email, 'test@test.com')
-        self.assertEqual(self.user.name, 'test')
 
     def test_song_creation(self):
         self.assertEqual(self.song.name, 'Test Song')
@@ -74,4 +73,5 @@ class SeleniumTest(StaticLiveServerTestCase):
         login_link = self.driver.find_element(By.LINK_TEXT, 'Login')
         self.assertIsNotNone(login_link)
         
+        self.driver.implicitly_wait(10)
         self.driver.quit()

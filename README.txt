@@ -1,3 +1,7 @@
+Check this playlist to see how to deploy this:
+https://www.youtube.com/playlist?list=PL63MaEJ40D8IwVY3kqoGu0QTutvfITZT6 
+Or just read the documentaion about "how to deploy this"
+
 READ MEEEEEEEE
 
 For the new team member, 
@@ -34,6 +38,4 @@ For the old team member,
 Why are you here?
 Get to work!
 
-Check this playlist to see how to deploy this:
-https://www.youtube.com/playlist?list=PL63MaEJ40D8IwVY3kqoGu0QTutvfITZT6 
-Or just read the documentaion about "how to deploy this"
+
